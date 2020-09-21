@@ -8,10 +8,10 @@ function About(props) {
         return (
             <div className="col-12 m-1" key={leader.id}>
             <Media>
-                <Media left href="#" className="col-2">
+                <Media left href="#" className="col-md-2">
                     <Media object src={leader.image} alt={leader.name} />
                 </Media>
-                <Media body className="col-9">
+                <Media body className="col-md-9">
                     <Media heading>
                         {leader.name}
                     </Media>
