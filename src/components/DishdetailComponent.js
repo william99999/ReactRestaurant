@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
-
+import Comment from './CommentFormComponent';
+import { Loading } from './LoadingComponent';
 
 function RenderDish({ dish }) {
     return (
@@ -17,7 +18,7 @@ function RenderDish({ dish }) {
     )
 }
 
-function RenderComments({ comments }) {
+function RenderComments({ comments, addComment, dishId }) {
 
     const commentsUI = comments.map((comment) => {
         return (
@@ -31,18 +32,30 @@ function RenderComments({ comments }) {
     return (
         <div className="col-12 col-md-5 m-1">
             {commentsUI}
+            <Comment dishId={dishId} addComment={addComment} />
         </div>
     )
 }
 
 const DishDetail = (props) => {
-    if (props.dish == null) {
+
+    if (props.isLoading) {
         return (
-            <div>
+            <div className="container">
+                <div className="row">
+                    <Loading />
+                </div>
             </div>
         );
-
-    } else {
+    } else if (props.errMess) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <h4>{props.errMess}</h4>
+                </div>
+            </div>
+        );
+    } else if (props.dish != null) {
         return (
             <div className="container">
                 <div className="row">
@@ -54,11 +67,19 @@ const DishDetail = (props) => {
                         <h3>{props.dish.name}</h3>
                         <hr />
                     </div>
-                </div>
+                </div>a
                 <div className="row">
                     <RenderDish dish={props.dish} />
-                    <RenderComments comments={props.comments} />
+                    <RenderComments comments={props.comments}
+                        addComment={props.addComment}
+                        dishId={props.dish.id} />
                 </div>
+            </div>
+        );
+
+    } else {
+        return (
+            <div>
             </div>
         );
 
